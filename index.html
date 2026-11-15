@@ -12,50 +12,102 @@
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 50px 20px;
+      padding: 30px 20px;
     }
 
-    h1 {
-      font-size: 36px;
-    }
+    h1 { font-size: 36px; }
 
-    p {
-      font-size: 20px;
-    }
+    p { font-size: 20px; }
 
     button {
       background: #ffcc00;
       color: #333;
-      padding: 16px 40px;
+      padding: 14px 30px;
       border: none;
       border-radius: 30px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 5px 15px #33333355;
+      margin: 10px;
     }
 
-    button:hover {
-      background: #ff9900;
-      transform: scale(1.1);
+    .kurs {
+      background: white;
+      color: #333;
+      max-width: 350px;
+      margin: 12px auto;
+      padding: 15px;
+      border-radius: 15px;
+      font-size: 20px;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>Salom, dostlar! 👋</h1>
-<img src="https://placehold.co/500x300/667eea/ffffff?text=TECHNOLOGY"
-     alt="Technology"
-     width="350">
+  <h1>Salom, do'stlar! 👋</h1>
+
+  <img src="https://placehold.co/500x300/667eea/ffffff?text=TECHNOLOGY"
+       alt="Technology" width="350">
+
   <p>Men GitHub orqali sayt yaratishni o'rganyapman.</p>
 
-  
->
-  <button onclick="alert('Salom! qalaysan! 🎉')">
-    tugmani bos!
+  <button onclick="alert('Salom! Qalaysan! 🎉')">
+    Tugmani bos!
   </button>
 
+  <h2>💰 Bugungi valyuta kurslari</h2>
+
+  <div id="kurslar">
+    Ma'lumot yuklanmoqda...
+  </div>
+
+  <button onclick="kurslarniOl()">
+    🔄 Kurslarni yangilash
+  </button>
+
+  <script>
+    async function kurslarniOl() {
+      const joy = document.getElementById("kurslar");
+      joy.innerHTML = "Ma'lumot yuklanmoqda...";
+
+      try {
+        const javob = await fetch(
+          "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
+        );
+
+        if (!javob.ok) {
+          throw new Error("Ma'lumot olinmadi");
+        }
+
+        const malumot = await javob.json();
+
+        const kerakli = ["USD", "EUR", "RUB"];
+
+        joy.innerHTML = "";
+
+        malumot
+          .filter(valyuta => kerakli.includes(valyuta.Ccy))
+          .forEach(valyuta => {
+            const karta = document.createElement("div");
+            karta.className = "kurs";
+
+            karta.textContent =
+              valyuta.Ccy + " — " +
+              Number(valyuta.Rate).toLocaleString("uz-UZ") +
+              " so'm";
+
+            joy.appendChild(karta);
+          });
+
+      } catch (xato) {
+        joy.innerHTML =
+          "Ma'lumot olishda xatolik yuz berdi. Qayta urinib ko'ring.";
+      }
+    }
+
+    kurslarniOl();
+  </script>
+
 </body>
-  
+</html>
