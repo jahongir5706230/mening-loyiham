@@ -7,62 +7,47 @@
 <title>Mening saytim</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   font-family: Arial, sans-serif;
   text-align: center;
-  padding: 30px 20px;
+  padding: 25px 15px;
+  margin: 0;
 }
 
-h1 { font-size: 36px; }
+h1 {
+  font-size: 36px;
+}
 
-p { font-size: 18px; }
+p {
+  font-size: 18px;
+}
 
 button {
   background: #ffcc00;
   color: #333;
-  padding: 14px 25px;
+  padding: 13px 22px;
   border: none;
   border-radius: 30px;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  margin: 10px;
+  margin: 7px;
   transition: 0.3s;
 }
 
 button:hover {
-  transform: scale(1.05);
   background: white;
+  transform: scale(1.04);
 }
 
 .tanlov {
-  margin: 30px auto;
-}
-
-.kurs, .ob-havo {
-  background: white;
-  color: #333;
-  max-width: 350px;
-  margin: 12px auto;
-  padding: 20px;
-  border-radius: 15px;
-  font-size: 20px;
-}
-
-input {
-  padding: 14px;
-  border-radius: 25px;
-  border: none;
-  font-size: 16px;
-  max-width: 80%;
-}
-
-.harorat {
-  font-size: 40px;
-  font-weight: bold;
-  color: #667eea;
+  margin: 25px auto;
 }
 
 .bolim {
@@ -71,6 +56,55 @@ input {
 
 .faol {
   display: block;
+}
+
+.kurs, .ob-havo {
+  background: white;
+  color: #333;
+  max-width: 380px;
+  margin: 15px auto;
+  padding: 20px;
+  border-radius: 18px;
+  font-size: 18px;
+  box-shadow: 0 5px 15px #33333330;
+}
+
+.viloyatlar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 850px;
+  margin: 20px auto;
+  gap: 5px;
+}
+
+.viloyatlar button {
+  font-size: 14px;
+  padding: 12px 16px;
+}
+
+.harorat {
+  font-size: 45px;
+  font-weight: bold;
+  color: #667eea;
+}
+
+input {
+  padding: 13px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  max-width: 90%;
+  margin: 10px;
+}
+
+hr {
+  border: 1px solid #ffffff50;
+  margin: 25px 0;
+}
+
+small {
+  color: #666;
 }
 </style>
 </head>
@@ -91,16 +125,18 @@ Tugmani bos!
 <h2>Kerakli bo'limni tanlang 👇</h2>
 
 <div class="tanlov">
-  <button onclick="bolimniOch('valyuta')">
-    💰 VALYUTA
-  </button>
 
-  <button onclick="bolimniOch('ob-havo')">
-    🌤️ OB-HAVO
-  </button>
+<button onclick="bolimniOch('valyuta')">
+💰 VALYUTA
+</button>
+
+<button onclick="bolimniOch('ob-havo')">
+🌤️ OB-HAVO
+</button>
+
 </div>
 
-<!-- VALYUTA BO'LIMI -->
+<!-- VALYUTA -->
 
 <div id="valyuta" class="bolim">
 
@@ -116,36 +152,62 @@ Ma'lumot yuklanmoqda...
 
 </div>
 
-<!-- OB-HAVO BO'LIMI -->
+<!-- OB-HAVO -->
 
 <div id="ob-havo" class="bolim">
 
-<h2>🌤️ Bugungi ob-havo</h2>
+<h2>🌤️ O'zbekiston ob-havosi</h2>
 
-<input
-  type="text"
-  id="shahar"
-  placeholder="Shahar nomini yozing"
-  value="Tashkent"
->
+<p>Kerakli viloyatni tanlang:</p>
 
-<br>
+<div class="viloyatlar">
 
-<button onclick="obHavoniOl()">
-🔍 Ob-havoni ko'rish
-</button>
+<button onclick="viloyatTanla('Tashkent')">Toshkent viloyati</button>
+
+<button onclick="viloyatTanla('Samarkand')">Samarqand</button>
+
+<button onclick="viloyatTanla('Bukhara')">Buxoro</button>
+
+<button onclick="viloyatTanla('Andijan')">Andijon</button>
+
+<button onclick="viloyatTanla('Namangan')">Namangan</button>
+
+<button onclick="viloyatTanla('Fergana')">Farg'ona</button>
+
+<button onclick="viloyatTanla('Nukus')">Qoraqalpog'iston</button>
+
+<button onclick="viloyatTanla('Jizzakh')">Jizzax</button>
+
+<button onclick="viloyatTanla('Gulistan')">Sirdaryo</button>
+
+<button onclick="viloyatTanla('Karshi')">Qashqadaryo</button>
+
+<button onclick="viloyatTanla('Termez')">Surxondaryo</button>
+
+<button onclick="viloyatTanla('Navoi')">Navoiy</button>
+
+<button onclick="viloyatTanla('Urgench')">Xorazm</button>
+
+<button onclick="viloyatTanla('Tashkent City')">Toshkent shahri</button>
+
+</div>
 
 <div id="obHavo" class="ob-havo">
-Ob-havo ma'lumotlari shu yerda chiqadi.
+Viloyatni tanlang 👆
 </div>
+
+<button onclick="obHavoniYangila()">
+🔄 Ob-havoni yangilash
+</button>
 
 </div>
 
 <script>
 
-// BO'LIMLARNI TANLASH
+// BO'LIMLARNI ALMASHTIRISH
 
 function bolimniOch(nom) {
+
   document.querySelectorAll(".bolim").forEach(b => {
     b.classList.remove("faol");
   });
@@ -156,18 +218,18 @@ function bolimniOch(nom) {
     kurslarniOl();
   }
 
-  if (nom === "ob-havo") {
-    obHavoniOl();
-  }
 }
 
 // VALYUTA KURSLARI
 
 async function kurslarniOl() {
+
   const joy = document.getElementById("kurslar");
+
   joy.innerHTML = "Ma'lumot yuklanmoqda...";
 
   try {
+
     const javob = await fetch(
       "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
     );
@@ -175,6 +237,7 @@ async function kurslarniOl() {
     if (!javob.ok) throw new Error("Xatolik");
 
     const malumot = await javob.json();
+
     const kerakli = ["USD", "EUR", "RUB"];
 
     joy.innerHTML = "";
@@ -182,7 +245,9 @@ async function kurslarniOl() {
     malumot
       .filter(v => kerakli.includes(v.Ccy))
       .forEach(v => {
+
         const karta = document.createElement("div");
+
         karta.className = "kurs";
 
         karta.textContent =
@@ -191,31 +256,56 @@ async function kurslarniOl() {
           " so'm";
 
         joy.appendChild(karta);
+
       });
 
   } catch (xato) {
+
     joy.innerHTML =
       "Valyuta kurslarini olishda xatolik yuz berdi!";
+
   }
+
 }
 
-// OB-HAVO
+// TANLANGAN VILOYAT
+
+let tanlanganShahar = "";
+
+function viloyatTanla(shahar) {
+
+  tanlanganShahar = shahar;
+
+  obHavoniOl();
+
+}
+
+// OB-HAVONI YANGILASH
+
+function obHavoniYangila() {
+
+  if (tanlanganShahar) {
+    obHavoniOl();
+  } else {
+    document.getElementById("obHavo").innerHTML =
+      "Avval viloyatni tanlang!";
+  }
+
+}
+
+// OB-HAVO MA'LUMOTLARI
 
 async function obHavoniOl() {
-  const shahar = document.getElementById("shahar").value.trim();
-  const joy = document.getElementById("obHavo");
 
-  if (!shahar) {
-    joy.innerHTML = "Iltimos, shahar nomini kiriting!";
-    return;
-  }
+  const joy = document.getElementById("obHavo");
 
   joy.innerHTML = "🌍 Ob-havo yuklanmoqda...";
 
   try {
+
     const geoUrl =
       "https://geocoding-api.open-meteo.com/v1/search?name=" +
-      encodeURIComponent(shahar) +
+      encodeURIComponent(tanlanganShahar) +
       "&count=1&language=uz&format=json";
 
     const geoJavob = await fetch(geoUrl);
@@ -228,10 +318,10 @@ async function obHavoniOl() {
       throw new Error("Shahar topilmadi");
     }
 
-    const manzil = geo.results[0];
+    const shahar = geo.results[0];
 
     const url =
-      `https://api.open-meteo.com/v1/forecast?latitude=${manzil.latitude}&longitude=${manzil.longitude}` +
+      `https://api.open-meteo.com/v1/forecast?latitude=${shahar.latitude}&longitude=${shahar.longitude}` +
       "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m" +
       "&timezone=auto";
 
@@ -240,9 +330,11 @@ async function obHavoniOl() {
     if (!javob.ok) throw new Error("Ob-havo olinmadi");
 
     const data = await javob.json();
-    const havo = data.current;
+
+    const h = data.current;
 
     const holatlar = {
+
       0: "☀️ Ochiq havo",
       1: "🌤️ Asosan ochiq",
       2: "⛅ Qisman bulutli",
@@ -264,31 +356,39 @@ async function obHavoniOl() {
       95: "⛈️ Momaqaldiroq",
       96: "⛈️ Do'l",
       99: "⛈️ Kuchli do'l"
+
     };
 
     const holat =
-      holatlar[havo.weather_code] || "🌍 Noma'lum ob-havo";
+      holatlar[h.weather_code] || "🌤️ Ob-havo";
 
     joy.innerHTML = `
-      <h3>📍 ${manzil.name}, ${manzil.country || ""}</h3>
+
+      <h3>📍 ${shahar.name}, ${shahar.country || ""}</h3>
 
       <div class="harorat">
-        ${Math.round(havo.temperature_2m)}°C
+        ${Math.round(h.temperature_2m)}°C
       </div>
 
       <h3>${holat}</h3>
 
-      <p>🌡️ His qilinadi: ${havo.apparent_temperature}°C</p>
-      <p>💧 Namlik: ${havo.relative_humidity_2m}%</p>
-      <p>💨 Shamol: ${havo.wind_speed_10m} km/soat</p>
+      <p>🌡️ His qilinadi: ${h.apparent_temperature}°C</p>
 
-      <small>🕒 ${havo.time.replace("T", " ")}</small>
+      <p>💧 Namlik: ${h.relative_humidity_2m}%</p>
+
+      <p>💨 Shamol: ${h.wind_speed_10m} km/soat</p>
+
+      <small>🕒 ${h.time.replace("T", " ")}</small>
+
     `;
 
   } catch (xato) {
+
     joy.innerHTML =
-      "❌ Ob-havo ma'lumotini olishda xatolik. Shahar nomini tekshiring!";
+      "❌ Ma'lumot olinmadi. Qayta urinib ko'ring!";
+
   }
+
 }
 
 </script>
