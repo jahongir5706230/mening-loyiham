@@ -18,6 +18,8 @@ body {
   text-align: center;
   padding: 25px 15px;
   margin: 0;
+  min-height: 100vh;
+  transition: 0.3s;
 }
 
 h1 {
@@ -25,16 +27,16 @@ h1 {
 }
 
 p {
-  font-size: 18px;
+  font-size: 17px;
 }
 
 button {
   background: #ffcc00;
   color: #333;
-  padding: 13px 22px;
+  padding: 13px 20px;
   border: none;
   border-radius: 30px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
   margin: 7px;
@@ -58,12 +60,12 @@ button:hover {
   display: block;
 }
 
-.kurs, .ob-havo {
+.kurs, .ob-havo, .prognoz-karta {
   background: white;
   color: #333;
   max-width: 380px;
-  margin: 15px auto;
-  padding: 20px;
+  margin: 12px auto;
+  padding: 18px;
   border-radius: 18px;
   font-size: 18px;
   box-shadow: 0 5px 15px #33333330;
@@ -73,14 +75,14 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 850px;
+  max-width: 900px;
   margin: 20px auto;
   gap: 5px;
 }
 
 .viloyatlar button {
   font-size: 14px;
-  padding: 12px 16px;
+  padding: 12px 15px;
 }
 
 .harorat {
@@ -98,9 +100,63 @@ input {
   margin: 10px;
 }
 
+.prognoz {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 10px;
+  max-width: 950px;
+  margin: 20px auto;
+}
+
+.prognoz-karta {
+  margin: 0;
+  padding: 15px 8px;
+  font-size: 15px;
+}
+
+.prognoz-karta h3 {
+  font-size: 16px;
+}
+
+.prognoz-emoji {
+  font-size: 30px;
+}
+
 hr {
   border: 1px solid #ffffff50;
   margin: 25px 0;
+}
+
+/* TUNGI REJIM */
+
+body.tungi {
+  background: linear-gradient(135deg, #101827, #243b55);
+  color: white;
+}
+
+body.tungi .kurs,
+body.tungi .ob-havo,
+body.tungi .prognoz-karta {
+  background: #263449;
+  color: white;
+}
+
+body.tungi .harorat {
+  color: #ffcc00;
+}
+
+body.tungi input {
+  background: #263449;
+  color: white;
+  border: 1px solid #667eea;
+}
+
+body.tungi small {
+  color: #ddd;
+}
+
+#rejimBtn {
+  background: #ffcc00;
 }
 
 small {
@@ -110,6 +166,10 @@ small {
 </head>
 
 <body>
+
+<button id="rejimBtn" onclick="rejimniAlmashtir()">
+🌙 Tungi rejim
+</button>
 
 <h1>Salom, do'stlar! 👋</h1>
 
@@ -136,7 +196,7 @@ Tugmani bos!
 
 </div>
 
-<!-- VALYUTA -->
+<!-- VALYUTA BO'LIMI -->
 
 <div id="valyuta" class="bolim">
 
@@ -152,43 +212,43 @@ Ma'lumot yuklanmoqda...
 
 </div>
 
-<!-- OB-HAVO -->
+<!-- OB-HAVO BO'LIMI -->
 
 <div id="ob-havo" class="bolim">
 
 <h2>🌤️ O'zbekiston ob-havosi</h2>
 
-<p>Kerakli viloyatni tanlang:</p>
+<p>Kerakli hududni tanlang:</p>
 
 <div class="viloyatlar">
 
-<button onclick="viloyatTanla('Tashkent')">Toshkent viloyati</button>
+<button onclick="viloyatTanla('Chirchiq','Toshkent viloyati')">Toshkent viloyati</button>
 
-<button onclick="viloyatTanla('Samarkand')">Samarqand</button>
+<button onclick="viloyatTanla('Tashkent','Toshkent shahri')">Toshkent shahri</button>
 
-<button onclick="viloyatTanla('Bukhara')">Buxoro</button>
+<button onclick="viloyatTanla('Samarkand','Samarqand')">Samarqand</button>
 
-<button onclick="viloyatTanla('Andijan')">Andijon</button>
+<button onclick="viloyatTanla('Bukhara','Buxoro')">Buxoro</button>
 
-<button onclick="viloyatTanla('Namangan')">Namangan</button>
+<button onclick="viloyatTanla('Andijan','Andijon')">Andijon</button>
 
-<button onclick="viloyatTanla('Fergana')">Farg'ona</button>
+<button onclick="viloyatTanla('Namangan','Namangan')">Namangan</button>
 
-<button onclick="viloyatTanla('Nukus')">Qoraqalpog'iston</button>
+<button onclick="viloyatTanla('Fergana','Farg‘ona')">Farg'ona</button>
 
-<button onclick="viloyatTanla('Jizzakh')">Jizzax</button>
+<button onclick="viloyatTanla('Nukus','Qoraqalpog‘iston')">Qoraqalpog'iston</button>
 
-<button onclick="viloyatTanla('Gulistan')">Sirdaryo</button>
+<button onclick="viloyatTanla('Jizzakh','Jizzax')">Jizzax</button>
 
-<button onclick="viloyatTanla('Karshi')">Qashqadaryo</button>
+<button onclick="viloyatTanla('Gulistan','Sirdaryo')">Sirdaryo</button>
 
-<button onclick="viloyatTanla('Termez')">Surxondaryo</button>
+<button onclick="viloyatTanla('Karshi','Qashqadaryo')">Qashqadaryo</button>
 
-<button onclick="viloyatTanla('Navoi')">Navoiy</button>
+<button onclick="viloyatTanla('Termez','Surxondaryo')">Surxondaryo</button>
 
-<button onclick="viloyatTanla('Urgench')">Xorazm</button>
+<button onclick="viloyatTanla('Navoi','Navoiy')">Navoiy</button>
 
-<button onclick="viloyatTanla('Tashkent City')">Toshkent shahri</button>
+<button onclick="viloyatTanla('Urgench','Xorazm')">Xorazm</button>
 
 </div>
 
@@ -200,9 +260,44 @@ Viloyatni tanlang 👆
 🔄 Ob-havoni yangilash
 </button>
 
+<h2>📅 5 kunlik ob-havo prognozi</h2>
+
+<div id="prognoz">
+<p>Avval viloyatni tanlang.</p>
+</div>
+
 </div>
 
 <script>
+
+// TUNGI VA KUNDUZGI REJIM
+
+function rejimniAlmashtir() {
+
+  document.body.classList.toggle("tungi");
+
+  const tugma = document.getElementById("rejimBtn");
+
+  const tungi = document.body.classList.contains("tungi");
+
+  tugma.innerHTML = tungi
+    ? "☀️ Kunduzgi rejim"
+    : "🌙 Tungi rejim";
+
+  localStorage.setItem("tungiRejim", tungi);
+
+}
+
+// SAHIFA OCHILGANDA REJIMNI SAQLASH
+
+if (localStorage.getItem("tungiRejim") === "true") {
+
+  document.body.classList.add("tungi");
+
+  document.getElementById("rejimBtn").innerHTML =
+    "☀️ Kunduzgi rejim";
+
+}
 
 // BO'LIMLARNI ALMASHTIRISH
 
@@ -262,19 +357,21 @@ async function kurslarniOl() {
   } catch (xato) {
 
     joy.innerHTML =
-      "Valyuta kurslarini olishda xatolik yuz berdi!";
+      "❌ Valyuta kurslarini olishda xatolik yuz berdi!";
 
   }
 
 }
 
-// TANLANGAN VILOYAT
+// OB-HAVO TANLANGAN HUDUD
 
 let tanlanganShahar = "";
+let tanlanganHudud = "";
 
-function viloyatTanla(shahar) {
+function viloyatTanla(shahar, hudud) {
 
   tanlanganShahar = shahar;
+  tanlanganHudud = hudud;
 
   obHavoniOl();
 
@@ -293,15 +390,51 @@ function obHavoniYangila() {
 
 }
 
-// OB-HAVO MA'LUMOTLARI
+// OB-HAVO HOLATLARI
+
+function havoHolati(kod) {
+
+  const holatlar = {
+    0: ["☀️", "Ochiq havo"],
+    1: ["🌤️", "Asosan ochiq"],
+    2: ["⛅", "Qisman bulutli"],
+    3: ["☁️", "Bulutli"],
+    45: ["🌫️", "Tuman"],
+    48: ["🌫️", "Qirovli tuman"],
+    51: ["🌦️", "Mayda yomg'ir"],
+    53: ["🌦️", "Yomg'ir"],
+    55: ["🌧️", "Kuchli yomg'ir"],
+    61: ["🌧️", "Yengil yomg'ir"],
+    63: ["🌧️", "Yomg'ir"],
+    65: ["⛈️", "Kuchli yomg'ir"],
+    71: ["🌨️", "Yengil qor"],
+    73: ["❄️", "Qor"],
+    75: ["❄️", "Kuchli qor"],
+    80: ["🌦️", "Jala"],
+    81: ["🌧️", "Kuchli jala"],
+    82: ["⛈️", "Juda kuchli jala"],
+    95: ["⛈️", "Momaqaldiroq"],
+    96: ["⛈️", "Do'l"],
+    99: ["⛈️", "Kuchli do'l"]
+  };
+
+  return holatlar[kod] || ["🌤️", "Noma'lum ob-havo"];
+
+}
+
+// OB-HAVO VA 5 KUNLIK PROGNOZ
 
 async function obHavoniOl() {
 
   const joy = document.getElementById("obHavo");
+  const prognoz = document.getElementById("prognoz");
 
   joy.innerHTML = "🌍 Ob-havo yuklanmoqda...";
+  prognoz.innerHTML = "📅 Prognoz yuklanmoqda...";
 
   try {
+
+    // SHAHAR KOORDINATALARINI TOPISH
 
     const geoUrl =
       "https://geocoding-api.open-meteo.com/v1/search?name=" +
@@ -320,10 +453,13 @@ async function obHavoniOl() {
 
     const shahar = geo.results[0];
 
+    // OB-HAVO API
+
     const url =
       `https://api.open-meteo.com/v1/forecast?latitude=${shahar.latitude}&longitude=${shahar.longitude}` +
       "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m" +
-      "&timezone=auto";
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max" +
+      "&forecast_days=5&timezone=auto";
 
     const javob = await fetch(url);
 
@@ -332,45 +468,21 @@ async function obHavoniOl() {
     const data = await javob.json();
 
     const h = data.current;
+    const kunlar = data.daily;
 
-    const holatlar = {
+    // BUGUNGI OB-HAVO
 
-      0: "☀️ Ochiq havo",
-      1: "🌤️ Asosan ochiq",
-      2: "⛅ Qisman bulutli",
-      3: "☁️ Bulutli",
-      45: "🌫️ Tuman",
-      48: "🌫️ Qirovli tuman",
-      51: "🌦️ Mayda yomg'ir",
-      53: "🌦️ Yomg'ir",
-      55: "🌧️ Kuchli yomg'ir",
-      61: "🌧️ Yengil yomg'ir",
-      63: "🌧️ Yomg'ir",
-      65: "⛈️ Kuchli yomg'ir",
-      71: "🌨️ Yengil qor",
-      73: "❄️ Qor",
-      75: "❄️ Kuchli qor",
-      80: "🌦️ Jala",
-      81: "🌧️ Kuchli jala",
-      82: "⛈️ Kuchli jala",
-      95: "⛈️ Momaqaldiroq",
-      96: "⛈️ Do'l",
-      99: "⛈️ Kuchli do'l"
-
-    };
-
-    const holat =
-      holatlar[h.weather_code] || "🌤️ Ob-havo";
+    const holat = havoHolati(h.weather_code);
 
     joy.innerHTML = `
 
-      <h3>📍 ${shahar.name}, ${shahar.country || ""}</h3>
+      <h3>📍 ${tanlanganHudud}</h3>
 
       <div class="harorat">
         ${Math.round(h.temperature_2m)}°C
       </div>
 
-      <h3>${holat}</h3>
+      <h3>${holat[0]} ${holat[1]}</h3>
 
       <p>🌡️ His qilinadi: ${h.apparent_temperature}°C</p>
 
@@ -382,10 +494,64 @@ async function obHavoniOl() {
 
     `;
 
+    // 5 KUNLIK PROGNOZ
+
+    prognoz.innerHTML = "";
+
+    for (let i = 0; i < kunlar.time.length; i++) {
+
+      const sana = new Date(
+        kunlar.time[i] + "T12:00:00"
+      );
+
+      const sanaMatni = sana.toLocaleDateString(
+        "uz-UZ",
+        {
+          day: "numeric",
+          month: "long"
+        }
+      );
+
+      const kunHolati = havoHolati(
+        kunlar.weather_code[i]
+      );
+
+      const karta = document.createElement("div");
+
+      karta.className = "prognoz-karta";
+
+      const yogin = kunlar.precipitation_probability_max[i];
+
+      karta.innerHTML = `
+
+        <h3>${i === 0 ? "Bugun" : sanaMatni}</h3>
+
+        <div class="prognoz-emoji">
+          ${kunHolati[0]}
+        </div>
+
+        <p>${kunHolati[1]}</p>
+
+        <h3>
+          🌡️ ${Math.round(kunlar.temperature_2m_max[i])}° /
+          ${Math.round(kunlar.temperature_2m_min[i])}°
+        </h3>
+
+        <p>🌧️ Yog'ingarchilik: ${yogin ?? "—"}%</p>
+
+      `;
+
+      prognoz.appendChild(karta);
+
+    }
+
   } catch (xato) {
 
     joy.innerHTML =
-      "❌ Ma'lumot olinmadi. Qayta urinib ko'ring!";
+      "❌ Ob-havo ma'lumotini olishda xatolik. Qayta urinib ko'ring!";
+
+    prognoz.innerHTML =
+      "❌ Prognozni yuklab bo'lmadi.";
 
   }
 
