@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mening saytim</title>
+<title>Jahongirning sayti</title>
 
 <style>
 * {
@@ -19,7 +19,7 @@ body {
   padding: 25px 15px;
   margin: 0;
   min-height: 100vh;
-  transition: 0.3s;
+  transition: 0.4s;
 }
 
 h1 {
@@ -45,7 +45,7 @@ button {
 
 button:hover {
   background: white;
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 .tanlov {
@@ -56,8 +56,9 @@ button:hover {
   display: none;
 }
 
-.faol {
+.bolim.faol {
   display: block;
+  animation: paydoBolish 0.7s ease;
 }
 
 .kurs, .ob-havo, .prognoz-karta {
@@ -69,6 +70,13 @@ button:hover {
   border-radius: 18px;
   font-size: 18px;
   box-shadow: 0 5px 15px #33333330;
+  transition: 0.3s;
+  animation: paydoBolish 0.6s ease;
+}
+
+.kurs:hover, .ob-havo:hover,
+.prognoz-karta:hover {
+  transform: translateY(-5px);
 }
 
 .viloyatlar {
@@ -131,7 +139,7 @@ hr {
 
 body.tungi {
   background: linear-gradient(135deg, #101827, #243b55);
-  color: White;
+  color: white;
 }
 
 body.tungi .kurs,
@@ -162,6 +170,59 @@ body.tungi small {
 small {
   color: #666;
 }
+
+/* ANIMATSIYALAR */
+
+@keyframes paydoBolish {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sarlavha {
+  animation: paydoBolish 1s ease;
+}
+
+.tanlov button {
+  animation: paydoBolish 1.2s ease;
+}
+
+/* JONLI SOAT */
+
+.soat-karta {
+  background: #ffffff25;
+  max-width: 380px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px #00000025;
+  animation: paydoBolish 1s ease;
+}
+
+#jonliSoat {
+  font-size: 38px;
+  font-weight: bold;
+  color: #ffcc00;
+}
+
+#bugungiSana {
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+body.tungi .soat-karta {
+  background: #263449;
+}
+
+.muallif {
+  margin-top: 30px;
+  padding: 20px;
+}
 </style>
 </head>
 
@@ -171,17 +232,19 @@ small {
 🌙 Tungi rejim
 </button>
 
-<h1>Salom, do'stlar! 👋</h1>
+<h1 class="sarlavha">Salom, do'stlar! 👋</h1>
 
-<p>
-Mening saytimga xush kelibsiz!
-Bu yerda valyuta kurslari va ob-havoni kuzatishingiz mumkin.
+<p>Mening saytimga xush kelibsiz!</p>
+<p>Bu yerda valyuta kurslari va ob-havoni kuzatishingiz mumkin.</p>
 
+<!-- JONLI SOAT -->
 
-  
-
-
-
+<div class="soat-karta">
+  <h2>⏰ Hozirgi vaqt</h2>
+  <div id="jonliSoat">00:00:00</div>
+  <div id="bugungiSana">Sana yuklanmoqda...</div>
+  <p>🇺🇿 Toshkent vaqti</p>
+</div>
 
 <h2>Kerakli bo'limni tanlang 👇</h2>
 
@@ -224,31 +287,18 @@ Ma'lumot yuklanmoqda...
 <div class="viloyatlar">
 
 <button onclick="viloyatTanla('Chirchiq','Toshkent viloyati')">Toshkent viloyati</button>
-
 <button onclick="viloyatTanla('Tashkent','Toshkent shahri')">Toshkent shahri</button>
-
 <button onclick="viloyatTanla('Samarkand','Samarqand')">Samarqand</button>
-
 <button onclick="viloyatTanla('Bukhara','Buxoro')">Buxoro</button>
-
 <button onclick="viloyatTanla('Andijan','Andijon')">Andijon</button>
-
 <button onclick="viloyatTanla('Namangan','Namangan')">Namangan</button>
-
-<button onclick="viloyatTanla('Fergana','Farg‘ona')">Farg'ona</button>
-
+<button onclick="viloyatTanla('Fergana','Farg'ona')">Farg'ona</button>
 <button onclick="viloyatTanla('Nukus','Qoraqalpog‘iston')">Qoraqalpog'iston</button>
-
 <button onclick="viloyatTanla('Jizzakh','Jizzax')">Jizzax</button>
-
 <button onclick="viloyatTanla('Gulistan','Sirdaryo')">Sirdaryo</button>
-
 <button onclick="viloyatTanla('Karshi','Qashqadaryo')">Qashqadaryo</button>
-
 <button onclick="viloyatTanla('Termez','Surxondaryo')">Surxondaryo</button>
-
 <button onclick="viloyatTanla('Navoi','Navoiy')">Navoiy</button>
-
 <button onclick="viloyatTanla('Urgench','Xorazm')">Xorazm</button>
 
 </div>
@@ -263,9 +313,23 @@ Viloyatni tanlang 👆
 
 <h2>📅 5 kunlik ob-havo prognozi</h2>
 
-<div id="prognoz">
+<div id="prognoz" class="prognoz">
 <p>Avval viloyatni tanlang.</p>
 </div>
+
+</div>
+
+<!-- MUALLIF HAQIDA -->
+
+<hr>
+
+<div class="muallif">
+
+<h2>👨‍💻 Sayt yaratuvchisi</h2>
+
+<button onclick="alert('Assalomu alaykum! Saytimizga xush kelibsiz! Sayt muallifi: G‘ofurov Jahongir. Bu mening GitHub dagi ilk saytim. Bu yerda ob-havo va valyuta kurslarini bilib olishingiz mumkin! ❤️')">
+Sayt yaratuvchisi haqida
+</button>
 
 </div>
 
@@ -286,7 +350,6 @@ function rejimniAlmashtir() {
     : "🌙 Tungi rejim";
 
   localStorage.setItem("tungiRejim", tungi);
-
 }
 
 // SAHIFA OCHILGANDA REJIMNI SAQLASH
@@ -297,8 +360,34 @@ if (localStorage.getItem("tungiRejim") === "true") {
 
   document.getElementById("rejimBtn").innerHTML =
     "☀️ Kunduzgi rejim";
-
 }
+
+// JONLI SOAT
+
+function soatniYangila() {
+
+  const hozir = new Date();
+
+  const vaqt = hozir.toLocaleTimeString("uz-UZ", {
+    timeZone: "Asia/Tashkent",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+
+  const sana = hozir.toLocaleDateString("uz-UZ", {
+    timeZone: "Asia/Tashkent",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
+  document.getElementById("jonliSoat").textContent = vaqt;
+  document.getElementById("bugungiSana").textContent = sana;
+}
+
+soatniYangila();
+setInterval(soatniYangila, 1000);
 
 // BO'LIMLARNI ALMASHTIRISH
 
@@ -313,7 +402,6 @@ function bolimniOch(nom) {
   if (nom === "valyuta") {
     kurslarniOl();
   }
-
 }
 
 // VALYUTA KURSLARI
@@ -361,7 +449,6 @@ async function kurslarniOl() {
       "❌ Valyuta kurslarini olishda xatolik yuz berdi!";
 
   }
-
 }
 
 // OB-HAVO TANLANGAN HUDUD
@@ -375,7 +462,6 @@ function viloyatTanla(shahar, hudud) {
   tanlanganHudud = hudud;
 
   obHavoniOl();
-
 }
 
 // OB-HAVONI YANGILASH
@@ -388,7 +474,6 @@ function obHavoniYangila() {
     document.getElementById("obHavo").innerHTML =
       "Avval viloyatni tanlang!";
   }
-
 }
 
 // OB-HAVO HOLATLARI
@@ -420,7 +505,6 @@ function havoHolati(kod) {
   };
 
   return holatlar[kod] || ["🌤️", "Noma'lum ob-havo"];
-
 }
 
 // OB-HAVO VA 5 KUNLIK PROGNOZ
@@ -434,8 +518,6 @@ async function obHavoniOl() {
   prognoz.innerHTML = "📅 Prognoz yuklanmoqda...";
 
   try {
-
-    // SHAHAR KOORDINATALARINI TOPISH
 
     const geoUrl =
       "https://geocoding-api.open-meteo.com/v1/search?name=" +
@@ -454,8 +536,6 @@ async function obHavoniOl() {
 
     const shahar = geo.results[0];
 
-    // OB-HAVO API
-
     const url =
       `https://api.open-meteo.com/v1/forecast?latitude=${shahar.latitude}&longitude=${shahar.longitude}` +
       "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m" +
@@ -471,39 +551,23 @@ async function obHavoniOl() {
     const h = data.current;
     const kunlar = data.daily;
 
-    // BUGUNGI OB-HAVO
-
     const holat = havoHolati(h.weather_code);
 
     joy.innerHTML = `
-
       <h3>📍 ${tanlanganHudud}</h3>
-
-      <div class="harorat">
-        ${Math.round(h.temperature_2m)}°C
-      </div>
-
+      <div class="harorat">${Math.round(h.temperature_2m)}°C</div>
       <h3>${holat[0]} ${holat[1]}</h3>
-
       <p>🌡️ His qilinadi: ${h.apparent_temperature}°C</p>
-
       <p>💧 Namlik: ${h.relative_humidity_2m}%</p>
-
       <p>💨 Shamol: ${h.wind_speed_10m} km/soat</p>
-
       <small>🕒 ${h.time.replace("T", " ")}</small>
-
     `;
-
-    // 5 KUNLIK PROGNOZ
 
     prognoz.innerHTML = "";
 
     for (let i = 0; i < kunlar.time.length; i++) {
 
-      const sana = new Date(
-        kunlar.time[i] + "T12:00:00"
-      );
+      const sana = new Date(kunlar.time[i] + "T12:00:00");
 
       const sanaMatni = sana.toLocaleDateString(
         "uz-UZ",
@@ -513,9 +577,7 @@ async function obHavoniOl() {
         }
       );
 
-      const kunHolati = havoHolati(
-        kunlar.weather_code[i]
-      );
+      const kunHolati = havoHolati(kunlar.weather_code[i]);
 
       const karta = document.createElement("div");
 
@@ -524,26 +586,17 @@ async function obHavoniOl() {
       const yogin = kunlar.precipitation_probability_max[i];
 
       karta.innerHTML = `
-
         <h3>${i === 0 ? "Bugun" : sanaMatni}</h3>
-
-        <div class="prognoz-emoji">
-          ${kunHolati[0]}
-        </div>
-
+        <div class="prognoz-emoji">${kunHolati[0]}</div>
         <p>${kunHolati[1]}</p>
-
         <h3>
           🌡️ ${Math.round(kunlar.temperature_2m_max[i])}° /
           ${Math.round(kunlar.temperature_2m_min[i])}°
         </h3>
-
         <p>🌧️ Yog'ingarchilik: ${yogin ?? "—"}%</p>
-
       `;
 
       prognoz.appendChild(karta);
-
     }
 
   } catch (xato) {
@@ -553,17 +606,10 @@ async function obHavoniOl() {
 
     prognoz.innerHTML =
       "❌ Prognozni yuklab bo'lmadi.";
-
   }
-
 }
 
 </script>
 
 </body>
-</html><button></button>
-
-    
-}<button onclick="alert('assalomu aleykum saytimizga xush kelibsiz saytni muallifi Gofurov Jahongir githubdagi ilk saytim bunda siz obi havo va valyuta kurslarini bilib olishingiz mumkin  ')">
-    sayt yaratuvchi xaqida
-</button>
+</html>
