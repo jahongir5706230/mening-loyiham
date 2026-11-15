@@ -2,112 +2,296 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mening saytim</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mening saytim</title>
 
-  <style>
-    body {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 30px 20px;
-    }
+<style>
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 30px 20px;
+}
 
-    h1 { font-size: 36px; }
+h1 { font-size: 36px; }
 
-    p { font-size: 20px; }
+p { font-size: 18px; }
 
-    button {
-      background: #ffcc00;
-      color: #333;
-      padding: 14px 30px;
-      border: none;
-      border-radius: 30px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 10px;
-    }
+button {
+  background: #ffcc00;
+  color: #333;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 30px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.3s;
+}
 
-    .kurs {
-      background: white;
-      color: #333;
-      max-width: 350px;
-      margin: 12px auto;
-      padding: 15px;
-      border-radius: 15px;
-      font-size: 20px;
-    }
-  </style>
+button:hover {
+  transform: scale(1.05);
+  background: white;
+}
+
+.tanlov {
+  margin: 30px auto;
+}
+
+.kurs, .ob-havo {
+  background: white;
+  color: #333;
+  max-width: 350px;
+  margin: 12px auto;
+  padding: 20px;
+  border-radius: 15px;
+  font-size: 20px;
+}
+
+input {
+  padding: 14px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  max-width: 80%;
+}
+
+.harorat {
+  font-size: 40px;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.bolim {
+  display: none;
+}
+
+.faol {
+  display: block;
+}
+</style>
 </head>
 
 <body>
 
-  <h1>Salom, do'stlar! 👋</h1>
+<h1>Salom, do'stlar! 👋</h1>
 
-  
-       
+<p>
+Mening saytimga xush kelibsiz!
+Bu yerda valyuta kurslari va ob-havoni kuzatishingiz mumkin.
+</p>
 
-  <p> mening saytimda dollor evro va rubil bahosini kuzatib borishingiz mumkin.</p>
+<button onclick="alert('Salom! Saytimizga xush kelibsiz 🎉')">
+Tugmani bos!
+</button>
 
-  <button onclick="alert('Salom! Qalaysan!saytimizga xush kelibsiz 🎉')">
-    Tugmani bos!
+<h2>Kerakli bo'limni tanlang 👇</h2>
+
+<div class="tanlov">
+  <button onclick="bolimniOch('valyuta')">
+    💰 VALYUTA
   </button>
 
-  <h2>💰 Bugungi valyuta kurslari</h2>
-
-  <div id="kurslar">
-    Ma'lumot yuklanmoqda...
-  </div>
-
-  <button onclick="kurslarniOl()">
-    🔄 Kurslarni yangilash
+  <button onclick="bolimniOch('ob-havo')">
+    🌤️ OB-HAVO
   </button>
+</div>
 
-  <script>
-    async function kurslarniOl() {
-      const joy = document.getElementById("kurslar");
-      joy.innerHTML = "Ma'lumot yuklanmoqda...";
+<!-- VALYUTA BO'LIMI -->
 
-      try {
-        const javob = await fetch(
-          "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
-        );
+<div id="valyuta" class="bolim">
 
-        if (!javob.ok) {
-          throw new Error("Ma'lumot olinmadi");
-        }
+<h2>💰 Bugungi valyuta kurslari</h2>
 
-        const malumot = await javob.json();
+<div id="kurslar">
+Ma'lumot yuklanmoqda...
+</div>
 
-        const kerakli = ["USD", "EUR", "RUB"];
+<button onclick="kurslarniOl()">
+🔄 Kurslarni yangilash
+</button>
 
-        joy.innerHTML = "";
+</div>
 
-        malumot
-          .filter(valyuta => kerakli.includes(valyuta.Ccy))
-          .forEach(valyuta => {
-            const karta = document.createElement("div");
-            karta.className = "kurs";
+<!-- OB-HAVO BO'LIMI -->
 
-            karta.textContent =
-              valyuta.Ccy + " — " +
-              Number(valyuta.Rate).toLocaleString("uz-UZ") +
-              " so'm";
+<div id="ob-havo" class="bolim">
 
-            joy.appendChild(karta);
-          });
+<h2>🌤️ Bugungi ob-havo</h2>
 
-      } catch (xato) {
-        joy.innerHTML =
-          "Ma'lumot olishda xatolik yuz berdi. Qayta urinib ko'ring.";
-      }
+<input
+  type="text"
+  id="shahar"
+  placeholder="Shahar nomini yozing"
+  value="Tashkent"
+>
+
+<br>
+
+<button onclick="obHavoniOl()">
+🔍 Ob-havoni ko'rish
+</button>
+
+<div id="obHavo" class="ob-havo">
+Ob-havo ma'lumotlari shu yerda chiqadi.
+</div>
+
+</div>
+
+<script>
+
+// BO'LIMLARNI TANLASH
+
+function bolimniOch(nom) {
+  document.querySelectorAll(".bolim").forEach(b => {
+    b.classList.remove("faol");
+  });
+
+  document.getElementById(nom).classList.add("faol");
+
+  if (nom === "valyuta") {
+    kurslarniOl();
+  }
+
+  if (nom === "ob-havo") {
+    obHavoniOl();
+  }
+}
+
+// VALYUTA KURSLARI
+
+async function kurslarniOl() {
+  const joy = document.getElementById("kurslar");
+  joy.innerHTML = "Ma'lumot yuklanmoqda...";
+
+  try {
+    const javob = await fetch(
+      "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
+    );
+
+    if (!javob.ok) throw new Error("Xatolik");
+
+    const malumot = await javob.json();
+    const kerakli = ["USD", "EUR", "RUB"];
+
+    joy.innerHTML = "";
+
+    malumot
+      .filter(v => kerakli.includes(v.Ccy))
+      .forEach(v => {
+        const karta = document.createElement("div");
+        karta.className = "kurs";
+
+        karta.textContent =
+          v.Ccy + " — " +
+          Number(v.Rate).toLocaleString("uz-UZ") +
+          " so'm";
+
+        joy.appendChild(karta);
+      });
+
+  } catch (xato) {
+    joy.innerHTML =
+      "Valyuta kurslarini olishda xatolik yuz berdi!";
+  }
+}
+
+// OB-HAVO
+
+async function obHavoniOl() {
+  const shahar = document.getElementById("shahar").value.trim();
+  const joy = document.getElementById("obHavo");
+
+  if (!shahar) {
+    joy.innerHTML = "Iltimos, shahar nomini kiriting!";
+    return;
+  }
+
+  joy.innerHTML = "🌍 Ob-havo yuklanmoqda...";
+
+  try {
+    const geoUrl =
+      "https://geocoding-api.open-meteo.com/v1/search?name=" +
+      encodeURIComponent(shahar) +
+      "&count=1&language=uz&format=json";
+
+    const geoJavob = await fetch(geoUrl);
+
+    if (!geoJavob.ok) throw new Error("Shahar topilmadi");
+
+    const geo = await geoJavob.json();
+
+    if (!geo.results || geo.results.length === 0) {
+      throw new Error("Shahar topilmadi");
     }
 
-    kurslarniOl();
-  </script>
+    const manzil = geo.results[0];
+
+    const url =
+      `https://api.open-meteo.com/v1/forecast?latitude=${manzil.latitude}&longitude=${manzil.longitude}` +
+      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m" +
+      "&timezone=auto";
+
+    const javob = await fetch(url);
+
+    if (!javob.ok) throw new Error("Ob-havo olinmadi");
+
+    const data = await javob.json();
+    const havo = data.current;
+
+    const holatlar = {
+      0: "☀️ Ochiq havo",
+      1: "🌤️ Asosan ochiq",
+      2: "⛅ Qisman bulutli",
+      3: "☁️ Bulutli",
+      45: "🌫️ Tuman",
+      48: "🌫️ Qirovli tuman",
+      51: "🌦️ Mayda yomg'ir",
+      53: "🌦️ Yomg'ir",
+      55: "🌧️ Kuchli yomg'ir",
+      61: "🌧️ Yengil yomg'ir",
+      63: "🌧️ Yomg'ir",
+      65: "⛈️ Kuchli yomg'ir",
+      71: "🌨️ Yengil qor",
+      73: "❄️ Qor",
+      75: "❄️ Kuchli qor",
+      80: "🌦️ Jala",
+      81: "🌧️ Kuchli jala",
+      82: "⛈️ Kuchli jala",
+      95: "⛈️ Momaqaldiroq",
+      96: "⛈️ Do'l",
+      99: "⛈️ Kuchli do'l"
+    };
+
+    const holat =
+      holatlar[havo.weather_code] || "🌍 Noma'lum ob-havo";
+
+    joy.innerHTML = `
+      <h3>📍 ${manzil.name}, ${manzil.country || ""}</h3>
+
+      <div class="harorat">
+        ${Math.round(havo.temperature_2m)}°C
+      </div>
+
+      <h3>${holat}</h3>
+
+      <p>🌡️ His qilinadi: ${havo.apparent_temperature}°C</p>
+      <p>💧 Namlik: ${havo.relative_humidity_2m}%</p>
+      <p>💨 Shamol: ${havo.wind_speed_10m} km/soat</p>
+
+      <small>🕒 ${havo.time.replace("T", " ")}</small>
+    `;
+
+  } catch (xato) {
+    joy.innerHTML =
+      "❌ Ob-havo ma'lumotini olishda xatolik. Shahar nomini tekshiring!";
+  }
+}
+
+</script>
 
 </body>
 </html>
